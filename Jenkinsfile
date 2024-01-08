@@ -1,5 +1,5 @@
 pipeline{
-    agentany{
+    agentany
     tools{
             jdk 'jdk11'
             maven 'maven3'
@@ -21,5 +21,5 @@ pipeline{
             }
         }
     }
-    }
+    
 }
