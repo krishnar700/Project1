@@ -5,21 +5,20 @@ pipeline{
             maven 'maven3'
     }
     stages{
-        stage (clean workspace){
+        stage ('clean workspace'){
             steps{
                 cleanWs()
             }
         }
-        stage ( checkout){
+        stage ('checkout'){
             steps{
                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/krishnar700/Project1.git']])
                 }
         }
-        stage (build stage){
+        stage ('build stage'){
             steps{
                 sh 'mvn clean package'
             }
         }
     }
-    
 }
