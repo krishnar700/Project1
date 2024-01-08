@@ -39,6 +39,17 @@ pipeline{
                 }
             }
         }
+        stage ('Docker Build and push'){
+            steps{
+                script {
+                    withDockerRegistry(credentialsId: 'dockerhub', toolName: 'docker') {
+                        sh "docker buils -t petclinic1 ."
+                        sh "docker tag petclinic1 krishna700/petclinic123:latest "
+                        sh " docker push krishna700/petclinic123:latest "
+                    }
+                }
+            }
+        }
     }
 }
 
