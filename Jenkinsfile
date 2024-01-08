@@ -1,5 +1,5 @@
 pipeline{
-    agent any
+    agentany
     tools{
             jdk 'jdk11'
             maven 'maven3'
@@ -29,10 +29,13 @@ pipeline{
                 }
             }
         }
-        stage ('sonarqube Quality gates'){
-            steps{
+        stage('SonarQube Quality Gates') {
+            steps {
                 script {
-                    withForQualityGate abortPipeline: false, credentialsId: 'sonar-server'
+                    def qg = waitForQualityGate abortPipeline: false, credentialsId: 'sonar-server'
+                    if (qg.status != 'OK') {
+                        error "Quality Gate check failed: ${qg.status}"
+                    }
                 }
             }
         }
