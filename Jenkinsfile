@@ -1,5 +1,5 @@
 pipeline{
-    agent any
+    agentany
     tools{
             jdk 'jdk11'
             maven 'maven3'
@@ -20,5 +20,22 @@ pipeline{
                 sh 'mvn clean package'
             }
         }
+        stage ('sonarqube analysis'){
+            steps{
+                script {
+                    withSonarQubeEnv(credentialsId: 'sonar-server') {
+                      sh 'mvn sonar:sonar'
+                    }
+                }
+            }
+        }
+        stage ('sonarqube Quality gates'){
+            steps{
+                script {
+                    withForQualityGate abortPipeline: false, credentialsId: 'sonar-server'
+                }
+            }
+        }
     }
 }
+
